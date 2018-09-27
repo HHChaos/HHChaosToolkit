@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="HHChaosToolkit.Sample.Views.ShellPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:HHChaosToolkit.Sample.Helpers"
+    xmlns:local="using:HHChaosToolkit.Sample.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:HHChaosToolkit.Sample.ViewModels"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding ShellViewModel, Source={StaticResource Locator}}"
+    mc:Ignorable="d">
+
+    <NavigationView
+        x:Name="NavigationView"
+        AlwaysShowHeader="False"
+        IsBackButtonVisible="Collapsed"
+        IsSettingsVisible="True">
+        <NavigationView.MenuItems>
+            <NavigationViewItem
+                x:Uid="Shell_Main"
+                Content="HomePage"
+                Icon="Home"
+                Tag="MainViewModel" />
+            <NavigationViewItem Content="NavigationService" Tag="NavigationServiceViewModel">
+                <NavigationViewItem.Icon>
+                    <SymbolIcon Symbol="Switch" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Picker/Dialog" Tag="PickerServiceViewModel">
+                <NavigationViewItem.Icon>
+                    <SymbolIcon Symbol="NewWindow" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="SubWindows" Tag="MainViewModel">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE737;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Toast" Tag="MainViewModel">
+                <NavigationViewItem.Icon>
+                    <SymbolIcon Symbol="Message" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </NavigationView.MenuItems>
+        <Grid>
+            <Frame x:Name="ShellFrame" />
+        </Grid>
+    </NavigationView>
+</Page>

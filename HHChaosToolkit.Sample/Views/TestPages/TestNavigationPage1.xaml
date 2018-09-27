@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="HHChaosToolkit.Sample.Views.TestPages.TestNavigationPage1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:HHChaosToolkit.Sample.Views.TestPages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding TestNavigationViewModel1, Source={StaticResource Locator}}"
+    mc:Ignorable="d">
+
+    <Grid Padding="10">
+        <StackPanel>
+            <TextBlock Text="TestNavigationPage1" />
+            <ToggleSwitch
+                IsOn="{Binding CanLeaveThisPage, Mode=TwoWay}"
+                OffContent="Cannot LeaveThisPage"
+                OnContent="Can LeaveThisPage" />
+            <TextBlock TextWrapping="Wrap">
+                <Run Text="Last Navigated To:" />
+                <Run Text="{Binding LastNavigatedTo}" />
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap">
+                <Run Text="Navigated Source:" />
+                <Run Text="{Binding NavigatedSource}" />
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap">
+                <Run Text="Navigated Parameter:" />
+                <Run Text="{Binding NavigatedParameter}" />
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

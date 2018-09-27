@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="HHChaosToolkit.Sample.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HHChaosToolkit.Sample"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding MainViewModel, Source={StaticResource Locator}}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="This is a demo for HHChaosTookit"/>
+
+    </Grid>
+</Page>

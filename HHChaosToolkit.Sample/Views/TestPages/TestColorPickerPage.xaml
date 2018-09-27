@@ -1,0 +1,52 @@
+﻿<Page
+    x:Class="HHChaosToolkit.Sample.Views.TestPages.TestColorPickerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HHChaosToolkit.Sample.Views.TestPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding TestColorPickerViewModel, Source={StaticResource Locator}}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style x:Key="PickerCloseButtonStyle"  TargetType="Button" BasedOn="{StaticResource NavigationBackButtonNormalStyle}">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Content" Value="&#xE10A;" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Foreground" Value="#474261" />
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid Background="White" BorderBrush="#d9ddea" BorderThickness="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Height="40" Background="#d9ddea">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Margin="15,0"
+                    VerticalAlignment="Center"
+                    FontSize="14px"
+                    Foreground="#474261"
+                    Text="ColorPicker" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding ExitCommand}"
+                    Style="{StaticResource PickerCloseButtonStyle}" />
+            </Grid>
+            <Grid Grid.Row="1" Padding="20,10">
+                <ColorPicker x:Name="ColorPicker"/>
+            </Grid>
+            <Grid Grid.Row="2" Padding="20">
+                <Button HorizontalAlignment="Center" Content="确定" Command="{Binding PickColorCommand}" CommandParameter="{x:Bind ColorPicker.Color,Mode=OneWay}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
