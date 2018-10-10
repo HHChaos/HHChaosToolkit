@@ -121,6 +121,10 @@
     <Compile Include="Services\Navigation\NavigationService.cs" />
     <Compile Include="Services\Navigation\NavigationServiceList.cs" />
     <Compile Include="Services\ObjectPickerService.cs" />
+    <Compile Include="Services\SubWindowsService.cs" />
+    <Compile Include="SubWindows\ISubWindow.cs" />
+    <Compile Include="SubWindows\SubWindow.cs" />
+    <Compile Include="Mvvm\SubWindowBase.cs" />
     <Compile Include="Utilities\VisualTreeHelperExtensions.cs" />
     <EmbeddedResource Include="Properties\HHChaosToolkit.UWP.rd.xml" />
   </ItemGroup>
@@ -131,7 +135,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
-    <Folder Include="SubWindow\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
