@@ -100,10 +100,12 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NavigationServiceViewModel.cs" />
     <Compile Include="ViewModels\PickerServiceViewModel.cs" />
+    <Compile Include="ViewModels\SubWindowsServiceViewModel.cs" />
     <Compile Include="ViewModels\TestViewModels\TestColorPickerViewModel.cs" />
     <Compile Include="ViewModels\TestViewModels\TestInputDialogViewModel.cs" />
     <Compile Include="ViewModels\TestViewModels\TestNavigationViewModel1.cs" />
     <Compile Include="ViewModels\TestViewModels\TestNavigationViewModel2.cs" />
+    <Compile Include="ViewModels\TestViewModels\TestSampleSubWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -119,6 +121,9 @@
     <Compile Include="Views\ShellPage.xaml.cs">
       <DependentUpon>ShellPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SubWindowsServicePage.xaml.cs">
+      <DependentUpon>SubWindowsServicePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TestPages\TestColorPickerPage.xaml.cs">
       <DependentUpon>TestColorPickerPage.xaml</DependentUpon>
     </Compile>
@@ -130,6 +135,9 @@
     </Compile>
     <Compile Include="Views\TestPages\TestNavigationPage2.xaml.cs">
       <DependentUpon>TestNavigationPage2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestPages\TestSampleSubWindowPage.xaml.cs">
+      <DependentUpon>TestSampleSubWindowPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +177,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SubWindowsServicePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TestPages\TestColorPickerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -182,6 +194,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TestPages\TestNavigationPage2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestPages\TestSampleSubWindowPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

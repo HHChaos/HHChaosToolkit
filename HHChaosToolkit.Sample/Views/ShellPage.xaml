@@ -32,7 +32,7 @@
                     <SymbolIcon Symbol="NewWindow" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="SubWindows" Tag="MainViewModel">
+            <NavigationViewItem Content="SubWindows" Tag="SubWindowsServiceViewModel">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE737;" />
                 </NavigationViewItem.Icon>

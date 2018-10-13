@@ -68,7 +68,7 @@ namespace HHChaosToolkit.UWP.Services
             };
             _rootGrid.Children.Add(subWindow);
             subWindow.Show();
-            subWindow.Navigate(page, parameter);
+            subWindow.Loaded += (sender, e) => { subWindow.Navigate(page, parameter); };
             subWindow.Closed += SubWindow_Closed;
             _subWindows.Add(subWindow.Id, subWindow);
             return subWindow.Id;

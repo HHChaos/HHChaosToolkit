@@ -94,7 +94,7 @@ namespace HHChaosToolkit.UWP.SubWindows
             if (parent != null)
             {
                 var maxZIndex = parent.GetVisualChildren().Max(Canvas.GetZIndex);
-                if (Canvas.GetZIndex(this) < maxZIndex)
+                if (maxZIndex==0||Canvas.GetZIndex(this) < maxZIndex)
                     Canvas.SetZIndex(this, maxZIndex + 1);
             }
         }
@@ -212,6 +212,8 @@ namespace HHChaosToolkit.UWP.SubWindows
 
         public bool Navigate(Type sourcePageType, object parameter = null)
         {
+            if (_contentFrame == null)
+                return false;
             if (_contentFrame.Content is Page page)
                 if (page.DataContext is ISubWindow viewModel)
                     viewModel.WindowClosed -= ViewModel_WindowClosed;
