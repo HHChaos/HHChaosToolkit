@@ -40,6 +40,7 @@ namespace HHChaosToolkit.UWP.Services.Navigation
         public bool CanGoForward => Frame.CanGoForward;
 
         public event NavigationFailedEventHandler NavigationFailed;
+        public event NavigatedEventHandler Navigated;
 
         public void GoBack()
         {
@@ -156,6 +157,7 @@ namespace HHChaosToolkit.UWP.Services.Navigation
         {
             var page = e.Content as Page;
             if (page?.DataContext is INavigable navigable) navigable.OnNavigatedTo(e);
+            Navigated?.Invoke(sender, e);
         }
 
         private void Frame_NavigationFailed(object sender, NavigationFailedEventArgs e)

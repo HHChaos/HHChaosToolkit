@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using HHChaosToolkit.UWP.Services.Navigation;
 using HHChaosToolkit.UWP.Utilities;
 
 // The Templated Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234235
@@ -29,11 +30,10 @@ namespace HHChaosToolkit.UWP.SubWindows
 
         private Button _closeButton;
 
-        private Frame _contentFrame;
-
         private Grid _layoutGrid;
 
         private CompositeTransform _layoutGridTransform;
+        private NavigationService _navigationService;
 
         private FrameworkElement _parent;
         private Grid _titleGrid;
@@ -45,6 +45,8 @@ namespace HHChaosToolkit.UWP.SubWindows
             Unloaded += SubWindow_Unloaded;
             Closed += SubWindow_Closed;
         }
+
+        private object FrameContent => _navigationService?.Frame?.Content;
 
         public string Id { get; } = Guid.NewGuid().ToString();
 
@@ -61,7 +63,8 @@ namespace HHChaosToolkit.UWP.SubWindows
             base.OnApplyTemplate();
             UnhookEvents();
             _layoutGrid = GetTemplateChild(LayoutGridName) as Grid;
-            _contentFrame = GetTemplateChild(ContentFrameName) as Frame;
+            if (GetTemplateChild(ContentFrameName) is Frame contentFrame)
+                _navigationService = new NavigationService {Frame = contentFrame};
             _titleGrid = GetTemplateChild(TitleGridName) as Grid;
             _closeButton = GetTemplateChild(CloseButtonName) as Button;
             HookUpEvents();
@@ -94,7 +97,7 @@ namespace HHChaosToolkit.UWP.SubWindows
             if (parent != null)
             {
                 var maxZIndex = parent.GetVisualChildren().Max(Canvas.GetZIndex);
-                if (maxZIndex==0||Canvas.GetZIndex(this) < maxZIndex)
+                if (maxZIndex == 0 || Canvas.GetZIndex(this) < maxZIndex)
                     Canvas.SetZIndex(this, maxZIndex + 1);
             }
         }
@@ -116,7 +119,6 @@ namespace HHChaosToolkit.UWP.SubWindows
 
         private void OnParentSizeChanged(object sender, SizeChangedEventArgs e)
         {
-
         }
 
         public void Close()
@@ -148,7 +150,7 @@ namespace HHChaosToolkit.UWP.SubWindows
                 _layoutGridTransform.TranslateY = Y;
             }
 
-            if (_contentFrame != null) _contentFrame.Navigated += ContentFrame_Navigated;
+            if (_navigationService != null) _navigationService.Navigated += ContentFrame_Navigated;
             var dragSource = _titleGrid;
             if (dragSource != null)
             {
@@ -163,7 +165,7 @@ namespace HHChaosToolkit.UWP.SubWindows
 
         private void UnhookEvents()
         {
-            if (_contentFrame != null) _contentFrame.Navigated -= ContentFrame_Navigated;
+            if (_navigationService != null) _navigationService.Navigated -= ContentFrame_Navigated;
             var dragSource = _titleGrid;
             if (dragSource != null)
             {
@@ -181,7 +183,7 @@ namespace HHChaosToolkit.UWP.SubWindows
 
         private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            if (_contentFrame.Content is Page page)
+            if (FrameContent is Page page)
             {
                 var titleBinding = new Binding
                 {
@@ -198,28 +200,28 @@ namespace HHChaosToolkit.UWP.SubWindows
             }
         }
 
-        public bool CanGoBack => _contentFrame.CanGoBack;
+        public bool CanGoBack => _navigationService.CanGoBack;
 
-        public bool CanGoForward => _contentFrame.CanGoForward;
+        public bool CanGoForward => _navigationService.CanGoForward;
 
         public void GoBack()
         {
-            _contentFrame.GoBack();
+            _navigationService.GoBack();
         }
 
         public void GoForward()
         {
-            _contentFrame.GoForward();
+            _navigationService.GoForward();
         }
 
         public bool Navigate(Type sourcePageType, object parameter = null)
         {
-            if (_contentFrame == null)
+            if (_navigationService == null)
                 return false;
-            if (_contentFrame.Content is Page page)
+            if (FrameContent is Page page)
                 if (page.DataContext is ISubWindow viewModel)
                     viewModel.WindowClosed -= ViewModel_WindowClosed;
-            return _contentFrame.Navigate(sourcePageType, parameter);
+            return _navigationService.Navigate(sourcePageType, parameter);
         }
 
         private void ViewModel_WindowClosed(object sender, EventArgs e)
@@ -229,14 +231,14 @@ namespace HHChaosToolkit.UWP.SubWindows
 
         private void SubWindow_Closed(object sender, EventArgs e)
         {
-            if (_contentFrame.Content is Page page)
+            if (FrameContent is Page page)
                 if (page.DataContext is ISubWindow viewModel)
                 {
                     viewModel.WindowClosed -= ViewModel_WindowClosed;
                     viewModel.RaiseWindowClosedEvent();
                 }
 
-            _contentFrame.Navigated -= ContentFrame_Navigated;
+            _navigationService.Navigated -= ContentFrame_Navigated;
         }
 
         #endregion

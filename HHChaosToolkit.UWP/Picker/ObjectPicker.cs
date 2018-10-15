@@ -20,18 +20,18 @@ namespace HHChaosToolkit.UWP.Picker
 
         public ObjectPicker()
         {
-            Content = Frame;
-            Frame.Navigated += Frame_Navigated;
+            Content = _navigationService.Frame;
+            _navigationService.Navigated += Frame_Navigated;
             Unloaded += ObjectPicker_Unloaded;
         }
 
-        private Frame Frame => _navigationService.Frame;
+        private object FrameContent => _navigationService?.Frame?.Content;
 
         public PickerOpenOption PickerOpenOption { get; set; } = new PickerOpenOption();
 
         private void ObjectPicker_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (Frame.Content is Page page)
+            if (FrameContent is Page page)
                 if (page.DataContext is IObjectPicker<T> viewModel)
                 {
                     viewModel.ObjectPicked -= ViewModel_ObjectPicked;
@@ -39,13 +39,13 @@ namespace HHChaosToolkit.UWP.Picker
                 }
 
             Unloaded -= ObjectPicker_Unloaded;
-            Frame.Navigated -= Frame_Navigated;
+            _navigationService.Navigated -= Frame_Navigated;
             _popup.IsOpen = false;
         }
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
-            if (Frame.Content is Page page)
+            if (FrameContent is Page page)
                 if (page.DataContext is IObjectPicker<T> viewModel)
                 {
                     viewModel.ObjectPicked += ViewModel_ObjectPicked;
