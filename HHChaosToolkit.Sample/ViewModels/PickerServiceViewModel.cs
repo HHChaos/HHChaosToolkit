@@ -14,7 +14,7 @@ namespace HHChaosToolkit.Sample.ViewModels
 {
     public class PickerServiceViewModel : ViewModelBase
     {
-        private Color _pickedColor;
+        private Color _pickedColor=Colors.White;
 
         public Color PickedColor
         {
@@ -30,7 +30,7 @@ namespace HHChaosToolkit.Sample.ViewModels
                 {
                     var pickerService = ServiceLocator.Current.GetInstance<ObjectPickerService>();
                     var ret = await pickerService.PickSingleObjectAsync<Color>(typeof(TestColorPickerViewModel)
-                        .FullName);
+                        .FullName, PickedColor);
                     if (!ret.Canceled)
                         PickedColor = ret.Result;
                 });
@@ -62,7 +62,7 @@ namespace HHChaosToolkit.Sample.ViewModels
                         }
                     };
                     var ret = await pickerService.PickSingleObjectAsync<Color>(typeof(TestColorPickerViewModel)
-                        .FullName, null, openOption);
+                        .FullName, PickedColor, openOption);
                     if (!ret.Canceled)
                         PickedColor = ret.Result;
                 });

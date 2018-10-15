@@ -42,10 +42,10 @@
                     Style="{StaticResource PickerCloseButtonStyle}" />
             </Grid>
             <Grid Grid.Row="1" Padding="20,10">
-                <ColorPicker x:Name="ColorPicker"/>
+                <ColorPicker x:Name="ColorPicker" Color="{Binding PickedColor,Mode=TwoWay}"/>
             </Grid>
             <Grid Grid.Row="2" Padding="20">
-                <Button HorizontalAlignment="Center" Content="确定" Command="{Binding PickColorCommand}" CommandParameter="{x:Bind ColorPicker.Color,Mode=OneWay}"/>
+                <Button HorizontalAlignment="Center" Content="确定" Command="{Binding PickColorCommand}"/>
             </Grid>
         </Grid>
     </Grid>

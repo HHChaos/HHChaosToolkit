@@ -64,7 +64,6 @@ namespace HHChaosToolkit.UWP.Services.Navigation
                     NavigationMode = NavigationMode.Forward
                 });
         }
-
         public bool Navigate(string pageKey, object parameter = null, NavigationTransitionInfo infoOverride = null)
         {
             Type page;
@@ -76,10 +75,18 @@ namespace HHChaosToolkit.UWP.Services.Navigation
                             pageKey), nameof(pageKey));
             }
 
-            if (Frame.Content?.GetType() != page || parameter != null)
+            return this.Navigate(page, parameter, infoOverride);
+        }
+        public bool Navigate<T>(object parameter = null, NavigationTransitionInfo infoOverride = null)
+            where T : ViewModelBase
+            => Navigate(typeof(T).FullName, parameter, infoOverride);
+
+        internal bool Navigate(Type pageType,object parameter = null, NavigationTransitionInfo infoOverride = null)
+        {
+            if (Frame.Content?.GetType() != pageType || parameter != null)
             {
                 var currentPage = _frame.Content as Page;
-                var navigationResult = Frame.Navigate(page, parameter, infoOverride);
+                var navigationResult = Frame.Navigate(pageType, parameter, infoOverride);
                 if (navigationResult && currentPage?.DataContext is INavigable navigable)
                     navigable.OnNavigatedFrom(new NavigatedFromEventArgs
                     {
@@ -92,10 +99,6 @@ namespace HHChaosToolkit.UWP.Services.Navigation
 
             return false;
         }
-        public bool Navigate<T>(object parameter = null, NavigationTransitionInfo infoOverride = null)
-            where T : ViewModelBase
-            => Navigate(typeof(T).FullName, parameter, infoOverride);
-
         public void Configure(string key, Type pageType)
         {
             lock (_pages)

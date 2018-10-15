@@ -1,35 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using HHChaosToolkit.UWP.Services.Navigation;
 
 namespace HHChaosToolkit.UWP.Picker
 {
     public class ObjectPicker<T> : ContentControl
     {
-        private readonly Frame _frame = new Frame();
-        
+        private readonly NavigationService _navigationService = new NavigationService {Frame = new Frame()};
+
         private Popup _popup;
         private Grid _rootGrid;
         private TaskCompletionSource<PickResult<T>> _taskSource;
 
         public ObjectPicker()
         {
-            Content = _frame;
-            _frame.Navigated += Frame_Navigated;
+            Content = Frame;
+            Frame.Navigated += Frame_Navigated;
             Unloaded += ObjectPicker_Unloaded;
         }
+
+        private Frame Frame => _navigationService.Frame;
 
         public PickerOpenOption PickerOpenOption { get; set; } = new PickerOpenOption();
 
         private void ObjectPicker_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (_frame.Content is Page page)
+            if (Frame.Content is Page page)
                 if (page.DataContext is IObjectPicker<T> viewModel)
                 {
                     viewModel.ObjectPicked -= ViewModel_ObjectPicked;
@@ -37,13 +39,13 @@ namespace HHChaosToolkit.UWP.Picker
                 }
 
             Unloaded -= ObjectPicker_Unloaded;
-            _frame.Navigated -= Frame_Navigated;
+            Frame.Navigated -= Frame_Navigated;
             _popup.IsOpen = false;
         }
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
-            if (_frame.Content is Page page)
+            if (Frame.Content is Page page)
                 if (page.DataContext is IObjectPicker<T> viewModel)
                 {
                     viewModel.ObjectPicked += ViewModel_ObjectPicked;
@@ -91,16 +93,14 @@ namespace HHChaosToolkit.UWP.Picker
                 Height = Window.Current.Bounds.Height,
                 ChildrenTransitions = PickerOpenOption.Transitions
             };
-            if (PickerOpenOption.EnableTapBlackAreaExit)
-            {
-                _rootGrid.Tapped += _rootGrid_Tapped;
-            }
+            if (PickerOpenOption.EnableTapBlackAreaExit) _rootGrid.Tapped += _rootGrid_Tapped;
+
             _popup = new Popup
             {
                 Child = _rootGrid
             };
             _rootGrid.Children.Add(this);
-            _frame.Navigate(sourcePageType, parameter);
+            _navigationService.Navigate(sourcePageType, parameter);
             Window.Current.SizeChanged += Current_SizeChanged;
             _popup.IsOpen = true;
             var result = await _taskSource.Task;
@@ -108,7 +108,7 @@ namespace HHChaosToolkit.UWP.Picker
             return result;
         }
 
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             if (_rootGrid != null)
             {
@@ -117,7 +117,7 @@ namespace HHChaosToolkit.UWP.Picker
             }
         }
 
-        private void _rootGrid_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void _rootGrid_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (e.OriginalSource == _rootGrid)
                 ViewModel_Canceled(this, EventArgs.Empty);
