@@ -13,8 +13,7 @@ namespace HHChaosToolkit.UWP.Picker
     public class ObjectPicker<T> : ContentControl
     {
         private readonly Frame _frame = new Frame();
-
-        private Page _currentPage;
+        
         private Popup _popup;
         private Grid _rootGrid;
         private TaskCompletionSource<PickResult<T>> _taskSource;
@@ -27,16 +26,6 @@ namespace HHChaosToolkit.UWP.Picker
         }
 
         public PickerOpenOption PickerOpenOption { get; set; } = new PickerOpenOption();
-
-        public Page CurrentPage
-        {
-            get
-            {
-                if (_currentPage != null) return _currentPage;
-                return (Window.Current.Content as Frame)?.Content as Page;
-            }
-            set => _currentPage = value;
-        }
 
         private void ObjectPicker_Unloaded(object sender, RoutedEventArgs e)
         {
@@ -98,8 +87,8 @@ namespace HHChaosToolkit.UWP.Picker
             _rootGrid = new Grid
             {
                 Background = PickerOpenOption.Background,
-                Width = CurrentPage.ActualWidth,
-                Height = CurrentPage.ActualHeight,
+                Width = Window.Current.Bounds.Width,
+                Height = Window.Current.Bounds.Height,
                 ChildrenTransitions = PickerOpenOption.Transitions
             };
             if (PickerOpenOption.EnableTapBlackAreaExit)
@@ -112,11 +101,20 @@ namespace HHChaosToolkit.UWP.Picker
             };
             _rootGrid.Children.Add(this);
             _frame.Navigate(sourcePageType, parameter);
-            CurrentPage.SizeChanged += CurrentPage_SizeChanged;
+            Window.Current.SizeChanged += Current_SizeChanged;
             _popup.IsOpen = true;
             var result = await _taskSource.Task;
             Close();
             return result;
+        }
+
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            if (_rootGrid != null)
+            {
+                _rootGrid.Width = Window.Current.Bounds.Width;
+                _rootGrid.Height = Window.Current.Bounds.Height;
+            }
         }
 
         private void _rootGrid_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -125,20 +123,11 @@ namespace HHChaosToolkit.UWP.Picker
                 ViewModel_Canceled(this, EventArgs.Empty);
         }
 
-        private void CurrentPage_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (_rootGrid != null)
-            {
-                _rootGrid.Width = CurrentPage.ActualWidth;
-                _rootGrid.Height = CurrentPage.ActualHeight;
-            }
-        }
-
         private void Close()
         {
-            if (CurrentPage != null)
+            Window.Current.SizeChanged -= Current_SizeChanged;
+            if (_rootGrid != null)
             {
-                CurrentPage.SizeChanged -= CurrentPage_SizeChanged;
                 _rootGrid.Tapped -= _rootGrid_Tapped;
                 _rootGrid.Children.Remove(this);
             }

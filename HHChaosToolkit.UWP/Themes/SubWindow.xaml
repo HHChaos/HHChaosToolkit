@@ -9,7 +9,6 @@
         TargetType="Button">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Content" Value="&#xE10A;" />
-        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="White" />
     </Style>
     <Style TargetType="subWindows:SubWindow">

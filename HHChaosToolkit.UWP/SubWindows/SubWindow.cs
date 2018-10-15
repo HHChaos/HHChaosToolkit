@@ -111,10 +111,12 @@ namespace HHChaosToolkit.UWP.SubWindows
             _parent = Parent as FrameworkElement;
             if (_parent != null)
                 _parent.SizeChanged += OnParentSizeChanged;
+            Activate();
         }
 
         private void OnParentSizeChanged(object sender, SizeChangedEventArgs e)
         {
+
         }
 
         public void Close()

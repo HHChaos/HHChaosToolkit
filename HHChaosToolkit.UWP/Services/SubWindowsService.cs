@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using HHChaosToolkit.UWP.SubWindows;
@@ -14,14 +15,15 @@ namespace HHChaosToolkit.UWP.Services
     {
         private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
         private readonly Dictionary<string, SubWindow> _subWindows = new Dictionary<string, SubWindow>();
-        private readonly Grid _rootGrid;
+        private readonly Canvas _subWindowsPanel= new Canvas { Name="SubWindowsPanel"};
+        private readonly Popup _subWindowsPopup = new Popup();
+
         public SubWindowsService()
         {
-            var windowsPopup = new Popup();
-            _rootGrid = new Grid();
-            windowsPopup.Child = _rootGrid;
-            windowsPopup.IsOpen = true;
+            _subWindowsPopup.Child = _subWindowsPanel;
+            _subWindowsPopup.IsOpen = true;
         }
+
         public void Configure(string key, Type pageType)
         {
             lock (_pages)
@@ -66,7 +68,7 @@ namespace HHChaosToolkit.UWP.Services
                 X = position.X,
                 Y = position.Y
             };
-            _rootGrid.Children.Add(subWindow);
+            _subWindowsPanel.Children.Add(subWindow);
             subWindow.Show();
             subWindow.Loaded += (sender, e) => { subWindow.Navigate(page, parameter); };
             subWindow.Closed += SubWindow_Closed;
