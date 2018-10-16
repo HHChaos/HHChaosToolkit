@@ -7,6 +7,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media.Animation;
 using HHChaosToolkit.UWP.SubWindows;
 
 namespace HHChaosToolkit.UWP.Services
@@ -20,6 +21,10 @@ namespace HHChaosToolkit.UWP.Services
 
         public SubWindowsService()
         {
+            _subWindowsPanel.ChildrenTransitions = new TransitionCollection
+            {
+                new PopupThemeTransition()
+            };
             _subWindowsPopup.Child = _subWindowsPanel;
             _subWindowsPopup.IsOpen = true;
         }

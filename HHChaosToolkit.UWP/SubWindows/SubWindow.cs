@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Windows.Foundation;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -35,7 +36,6 @@ namespace HHChaosToolkit.UWP.SubWindows
         private CompositeTransform _layoutGridTransform;
         private NavigationService _navigationService;
 
-        private FrameworkElement _parent;
         private Grid _titleGrid;
 
         public SubWindow()
@@ -49,6 +49,8 @@ namespace HHChaosToolkit.UWP.SubWindows
         private object FrameContent => _navigationService?.Frame?.Content;
 
         public string Id { get; } = Guid.NewGuid().ToString();
+
+        public double MoveAreaMargin { set; get; } = 20;
 
         public object Title
         {
@@ -77,8 +79,22 @@ namespace HHChaosToolkit.UWP.SubWindows
 
         private void DragSource_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            X += e.Delta.Translation.X;
-            Y += e.Delta.Translation.Y;
+            var windowRect = new Rect(0, 0, Window.Current.Bounds.Width - MoveAreaMargin,
+                Window.Current.Bounds.Height - MoveAreaMargin);
+            var newPoint = new Point(X + e.Delta.Translation.X, Y + e.Delta.Translation.Y);
+            if (windowRect.Contains(newPoint))
+            {
+                X = newPoint.X;
+                Y = newPoint.Y;
+            }
+            else if (windowRect.Contains(new Point(0, newPoint.Y)))
+            {
+                Y = newPoint.Y;
+            }
+            else if (windowRect.Contains(new Point(newPoint.X, 0)))
+            {
+                X = newPoint.X;
+            }
         }
 
         private void DragSource_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -104,25 +120,46 @@ namespace HHChaosToolkit.UWP.SubWindows
 
         private void SubWindow_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (_parent != null)
-                _parent.SizeChanged -= OnParentSizeChanged;
-            _parent = null;
+            Window.Current.SizeChanged -= Current_SizeChanged;
         }
 
         private void SubWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            _parent = Parent as FrameworkElement;
-            if (_parent != null)
-                _parent.SizeChanged += OnParentSizeChanged;
+            Window.Current.SizeChanged += Current_SizeChanged;
             Activate();
         }
 
-        private void OnParentSizeChanged(object sender, SizeChangedEventArgs e)
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
+            var windowWidth = Window.Current.Bounds.Width - MoveAreaMargin;
+            var windowHeight = Window.Current.Bounds.Height - MoveAreaMargin;
+            var position = $"{(X < windowWidth ? 'L' : 'R')}{(Y < windowHeight ? 'T' : 'B')}";
+            var point = new Point(X, Y);
+            switch (position)
+            {
+                case "LT":
+                    //Show();
+                    return;
+                case "LB":
+                    point.Y = windowHeight;
+                    break;
+                case "RT":
+                    point.X = windowWidth;
+                    break;
+                case "RB":
+                    point.X = windowWidth;
+                    point.Y = windowHeight;
+                    break;
+            }
+
+            //Hide();
+            X = point.X;
+            Y = point.Y;
         }
 
         public void Close()
         {
+            UnhookEvents();
             var parentPanel = Parent as Panel;
             parentPanel?.Children.Remove(this);
             Closed?.Invoke(this, EventArgs.Empty);
