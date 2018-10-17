@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <!--*-->
+    <id>HHChaosToolkit.UWP</id>
+    <!--*-->
+    <version>1.0.0</version>
+    <title>HHChaosToolkit.UWP</title>
+    <!--*-->
+    <authors>HHChaos</authors>
+    <owners>HHChaos</owners>
+    <!--
+    <licenseUrl></licenseUrl>
+    <projectUrl></projectUrl>
+    <iconUrl></iconUrl>
+-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--*-->
+    <description>A set of MVVM tookit class libraries for uwp platforms </description>
+    <!--*-->
+    <releaseNotes>First version.</releaseNotes>
+    <copyright>Copyright ©  2018</copyright>
+    <tags>
+    </tags>
+    <dependencies>
+      <!--
+      <dependency id="SampleDependency" version="1.0" />
+-->
+    </dependencies>
+  </metadata>
+</package>
