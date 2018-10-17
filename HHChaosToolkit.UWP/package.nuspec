@@ -4,7 +4,7 @@
     <!--*-->
     <id>HHChaosToolkit.UWP</id>
     <!--*-->
-    <version>1.0.0</version>
+    <version>1.0.0.1</version>
     <title>HHChaosToolkit.UWP</title>
     <!--*-->
     <authors>HHChaos</authors>
@@ -28,4 +28,11 @@
 -->
     </dependencies>
   </metadata>
+  <files>
+    <file src="bin\Release\Themes\*.xbf" target="lib\uap10.0\HHChaosToolkit.UWP\Themes" />
+    <file src="bin\Release\HHChaosToolkit.UWP.dll" target="lib\uap10.0" />
+    <file src="bin\Release\HHChaosToolkit.UWP.pdb" target="lib\uap10.0" />
+    <file src="bin\Release\HHChaosToolkit.UWP.pri" target="lib\uap10.0" />
+    <file src="bin\Release\HHChaosToolkit.UWP.xr.xml" target="lib\uap10.0\HHChaosToolkit.UWP" />
+  </files>
 </package>
