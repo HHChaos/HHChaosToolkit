@@ -106,6 +106,7 @@
     <Compile Include="ViewModels\TestViewModels\TestNavigationViewModel1.cs" />
     <Compile Include="ViewModels\TestViewModels\TestNavigationViewModel2.cs" />
     <Compile Include="ViewModels\TestViewModels\TestSampleSubWindowViewModel.cs" />
+    <Compile Include="ViewModels\ToastSampleViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -138,6 +139,9 @@
     </Compile>
     <Compile Include="Views\TestPages\TestSampleSubWindowPage.xaml.cs">
       <DependentUpon>TestSampleSubWindowPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToastSamplePage.xaml.cs">
+      <DependentUpon>ToastSamplePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TestPages\TestSampleSubWindowPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToastSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

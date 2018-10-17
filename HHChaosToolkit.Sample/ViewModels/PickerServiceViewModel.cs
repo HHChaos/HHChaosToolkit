@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using CommonServiceLocator;
 using HHChaosToolkit.Sample.ViewModels.TestViewModels;
+using HHChaosToolkit.UWP.Controls;
 using HHChaosToolkit.UWP.Mvvm;
 using HHChaosToolkit.UWP.Picker;
 using HHChaosToolkit.UWP.Services;
@@ -32,7 +33,11 @@ namespace HHChaosToolkit.Sample.ViewModels
                     var ret = await pickerService.PickSingleObjectAsync<Color>(typeof(TestColorPickerViewModel)
                         .FullName, PickedColor);
                     if (!ret.Canceled)
+                    {
                         PickedColor = ret.Result;
+                        var toast = new Toast($"You picked a new color!({ret.Result})");
+                        toast.Show();
+                    }
                 });
             }
         }
@@ -64,7 +69,12 @@ namespace HHChaosToolkit.Sample.ViewModels
                     var ret = await pickerService.PickSingleObjectAsync<Color>(typeof(TestColorPickerViewModel)
                         .FullName, PickedColor, openOption);
                     if (!ret.Canceled)
+                    {
                         PickedColor = ret.Result;
+                        var toast = new Toast($"You picked a new color!({ret.Result})");
+                        toast.Show();
+                    }
+
                 });
             }
         }
@@ -81,6 +91,11 @@ namespace HHChaosToolkit.Sample.ViewModels
                         {
                             HorizontalAlignment = HorizontalAlignment.Stretch
                         });
+                    if (!ret.Canceled)
+                    {
+                        var toast = new Toast($"Get:{ret.Result}");
+                        toast.Show();
+                    }
                 });
             }
         }
@@ -114,6 +129,11 @@ namespace HHChaosToolkit.Sample.ViewModels
                     };
                     var ret = await pickerService.PickSingleObjectAsync<string>(
                         typeof(TestInputDialogViewModel).FullName, null, openOption);
+                    if (!ret.Canceled)
+                    {
+                        var toast = new Toast($"Get: {ret.Result}");
+                        toast.Show();
+                    }
                 });
             }
         }

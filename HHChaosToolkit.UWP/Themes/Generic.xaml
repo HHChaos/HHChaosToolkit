@@ -4,5 +4,7 @@
     xmlns:local="using:HHChaosToolkit.UWP">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///HHChaosToolkit.UWP/Themes/SubWindow.xaml" />
+        <ResourceDictionary Source="ms-appx:///HHChaosToolkit.UWP/Themes/WaitingDialog.xaml" />
+        <ResourceDictionary Source="ms-appx:///HHChaosToolkit.UWP/Themes/Toast.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

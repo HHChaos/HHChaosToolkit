@@ -1,0 +1,24 @@
+﻿<Page
+    x:Class="HHChaosToolkit.Sample.Views.ToastSamplePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HHChaosToolkit.Sample.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding ToastSampleViewModel, Source={StaticResource Locator}}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid Padding="10">
+        <StackPanel>
+            <Button Content="ShowSampleToast" Command="{Binding ShowSampleToastCommand}"/>
+            <Button Content="ShowWaitingDialog" Command="{Binding ShowWaitingDialogCommand}"/>
+        </StackPanel>
+    </Grid>
+</Page>

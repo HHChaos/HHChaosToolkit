@@ -37,7 +37,7 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE737;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="Toast" Tag="MainViewModel">
+            <NavigationViewItem Content="Toast" Tag="ToastSampleViewModel">
                 <NavigationViewItem.Icon>
                     <SymbolIcon Symbol="Message" />
                 </NavigationViewItem.Icon>

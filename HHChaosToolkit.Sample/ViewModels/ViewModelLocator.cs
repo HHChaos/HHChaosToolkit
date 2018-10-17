@@ -33,6 +33,7 @@ namespace HHChaosToolkit.Sample.ViewModels
         public NavigationServiceViewModel NavigationServiceViewModel => ServiceLocator.Current.GetInstance<NavigationServiceViewModel>();
         public PickerServiceViewModel PickerServiceViewModel => ServiceLocator.Current.GetInstance<PickerServiceViewModel>();
         public SubWindowsServiceViewModel SubWindowsServiceViewModel => ServiceLocator.Current.GetInstance<SubWindowsServiceViewModel>();
+        public ToastSampleViewModel ToastSampleViewModel => ServiceLocator.Current.GetInstance<ToastSampleViewModel>();
 
         public TestNavigationViewModel1 TestNavigationViewModel1 => ServiceLocator.Current.GetInstance<TestNavigationViewModel1>();
         public TestNavigationViewModel2 TestNavigationViewModel2 => ServiceLocator.Current.GetInstance<TestNavigationViewModel2>();
@@ -52,6 +53,7 @@ namespace HHChaosToolkit.Sample.ViewModels
             RegisterNavigationService<NavigationServiceViewModel, NavigationServicePage>(ShellViewModel.ContentNavigationServiceKey);
             RegisterNavigationService<PickerServiceViewModel, PickerServicePage>(ShellViewModel.ContentNavigationServiceKey);
             RegisterNavigationService<SubWindowsServiceViewModel, SubWindowsServicePage>(ShellViewModel.ContentNavigationServiceKey);
+            RegisterNavigationService<ToastSampleViewModel, ToastSamplePage>(ShellViewModel.ContentNavigationServiceKey);
 
             RegisterNavigationService<TestNavigationViewModel1, TestNavigationPage1>(NavigationServiceViewModel.ContentNavigationServiceKey);
             RegisterNavigationService<TestNavigationViewModel2, TestNavigationPage2>(NavigationServiceViewModel.ContentNavigationServiceKey);
