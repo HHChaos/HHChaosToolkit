@@ -93,7 +93,7 @@ namespace HHChaosToolkit.Sample.ViewModels
                         });
                     if (!ret.Canceled)
                     {
-                        var toast = new Toast($"Get:{ret.Result}");
+                        var toast = new Toast($"Get: {ret.Result}");
                         toast.Show();
                     }
                 });

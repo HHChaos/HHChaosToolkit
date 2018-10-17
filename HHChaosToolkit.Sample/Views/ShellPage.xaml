@@ -15,7 +15,7 @@
         x:Name="NavigationView"
         AlwaysShowHeader="False"
         IsBackButtonVisible="Collapsed"
-        IsSettingsVisible="True">
+        IsSettingsVisible="False">
         <NavigationView.MenuItems>
             <NavigationViewItem
                 x:Uid="Shell_Main"
