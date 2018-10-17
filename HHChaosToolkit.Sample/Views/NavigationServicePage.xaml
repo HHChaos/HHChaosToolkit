@@ -25,8 +25,8 @@
                 Margin="0,0,0,10"
                 Command="{Binding GoPage2Command}"
                 Content="Go Page2" />
-            <Button Command="{Binding GoBackCommand}" Content="Frame GoBack" />
-            <Button Command="{Binding GoForwardCommand}" Content="Frame GoForward" />
+            <Button Command="{Binding GoBackCommand}" Content="GoBack" />
+            <Button Command="{Binding GoForwardCommand}" Content="GoForward" />
         </StackPanel>
     </Grid>
 </Page>

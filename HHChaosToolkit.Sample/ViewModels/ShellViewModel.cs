@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
-using HHChaosToolkit.Sample.Helpers;
 using HHChaosToolkit.UWP.Mvvm;
 using HHChaosToolkit.UWP.Services.Navigation;
 

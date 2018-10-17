@@ -95,8 +95,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\NavHelper.cs" />
-    <Compile Include="Helpers\Singleton.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NavigationServiceViewModel.cs" />
     <Compile Include="ViewModels\PickerServiceViewModel.cs" />
