@@ -2,10 +2,10 @@
 A set of MVVM tookit class libraries for uwp platforms
 
 ## Download
-UWP:download from [Nuget]("https://www.nuget.org/packages/HHChaosToolkit.UWP/")
+UWP:download from [Nuget](https://www.nuget.org/packages/HHChaosToolkit.UWP/)
 
 ## Sample App
-[This is a sample app]("https://github.com/HHChaos/HHChaosToolkit/tree/master/HHChaosToolkit.Sample")
+[This is a sample app](https://github.com/HHChaos/HHChaosToolkit/tree/master/HHChaosToolkit.Sample)
 
 ### Screenshot:
 * **NavigationService**
