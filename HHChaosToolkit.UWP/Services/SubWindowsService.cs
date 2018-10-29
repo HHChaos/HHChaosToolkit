@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Animation;
@@ -16,7 +13,7 @@ namespace HHChaosToolkit.UWP.Services
     {
         private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
         private readonly Dictionary<string, SubWindow> _subWindows = new Dictionary<string, SubWindow>();
-        private readonly Canvas _subWindowsPanel= new Canvas { Name="SubWindowsPanel"};
+        private readonly Canvas _subWindowsPanel = new Canvas {Name = "SubWindowsPanel"};
         private readonly Popup _subWindowsPopup = new Popup();
 
         public SubWindowsService()
@@ -150,6 +147,15 @@ namespace HHChaosToolkit.UWP.Services
             if (_subWindows.ContainsKey(subWinKey))
             {
                 var subWin = _subWindows[subWinKey];
+                subWin.Close();
+            }
+        }
+
+        public void CloseAllWindows()
+        {
+            while (_subWindows.Count > 0)
+            {
+                var subWin = _subWindows.First().Value;
                 subWin.Close();
             }
         }
