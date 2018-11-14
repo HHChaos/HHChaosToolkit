@@ -12,7 +12,7 @@ namespace HHChaosToolkit.UWP.Picker
 {
     public class ObjectPicker<T> : ContentControl
     {
-        private readonly NavigationService _navigationService = new NavigationService {Frame = new Frame()};
+        private readonly NavigationService _navigationService = new NavigationService { Frame = new Frame() };
 
         private Popup _popup;
         private Grid _rootGrid;
@@ -21,64 +21,12 @@ namespace HHChaosToolkit.UWP.Picker
         public ObjectPicker()
         {
             Content = _navigationService.Frame;
-            _navigationService.Navigated += Frame_Navigated;
-            Unloaded += ObjectPicker_Unloaded;
+            HookUpEvents();
         }
-
-        private object FrameContent => _navigationService?.Frame?.Content;
+        
+        private IObjectPicker<T> ViewModel => (_navigationService?.Frame?.Content as Page)?.DataContext as IObjectPicker<T>;
 
         public PickerOpenOption PickerOpenOption { get; set; } = new PickerOpenOption();
-
-        private void ObjectPicker_Unloaded(object sender, RoutedEventArgs e)
-        {
-            if (FrameContent is Page page)
-                if (page.DataContext is IObjectPicker<T> viewModel)
-                {
-                    viewModel.ObjectPicked -= ViewModel_ObjectPicked;
-                    viewModel.Canceled -= ViewModel_Canceled;
-                }
-
-            Unloaded -= ObjectPicker_Unloaded;
-            _navigationService.Navigated -= Frame_Navigated;
-            _popup.IsOpen = false;
-        }
-
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            if (FrameContent is Page page)
-                if (page.DataContext is IObjectPicker<T> viewModel)
-                {
-                    viewModel.ObjectPicked += ViewModel_ObjectPicked;
-                    viewModel.Canceled += ViewModel_Canceled;
-                }
-        }
-
-        private void ClearViewModelEvent(IObjectPicker<T> viewModel)
-        {
-            if (viewModel != null)
-            {
-                viewModel.ObjectPicked -= ViewModel_ObjectPicked;
-                viewModel.Canceled -= ViewModel_Canceled;
-            }
-        }
-
-        private void ViewModel_ObjectPicked(object sender, ObjectPickedEventArgs<T> e)
-        {
-            _taskSource.SetResult(new PickResult<T>
-            {
-                Result = e.Result
-            });
-            ClearViewModelEvent(sender as IObjectPicker<T>);
-        }
-
-        private void ViewModel_Canceled(object sender, EventArgs e)
-        {
-            _taskSource.SetResult(new PickResult<T>
-            {
-                Canceled = true
-            });
-            ClearViewModelEvent(sender as IObjectPicker<T>);
-        }
 
         public async Task<PickResult<T>> PickSingleObjectAsync(Type sourcePageType, object parameter = null)
         {
@@ -93,7 +41,7 @@ namespace HHChaosToolkit.UWP.Picker
                 Height = Window.Current.Bounds.Height,
                 ChildrenTransitions = PickerOpenOption.Transitions
             };
-            if (PickerOpenOption.EnableTapBlackAreaExit) _rootGrid.Tapped += _rootGrid_Tapped;
+            if (PickerOpenOption.EnableTapBlackAreaExit) _rootGrid.Tapped += RootGrid_Tapped;
 
             _popup = new Popup
             {
@@ -101,14 +49,63 @@ namespace HHChaosToolkit.UWP.Picker
             };
             _rootGrid.Children.Add(this);
             _navigationService.Navigate(sourcePageType, parameter);
-            Window.Current.SizeChanged += Current_SizeChanged;
             _popup.IsOpen = true;
             var result = await _taskSource.Task;
             Close();
             return result;
         }
 
-        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        #region HookEvent
+
+        private void HookUpEvents()
+        {
+            Unloaded += ObjectPicker_Unloaded;
+            _navigationService.Navigated += Frame_Navigated;
+            Window.Current.SizeChanged += Window_SizeChanged;
+        }
+
+        private void UnhookEvents()
+        {
+            Unloaded -= ObjectPicker_Unloaded;
+            _navigationService.Navigated -= Frame_Navigated;
+            Window.Current.SizeChanged -= Window_SizeChanged;
+        }
+
+        private void HookUpViewModelEvents()
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.ObjectPicked += ViewModel_ObjectPicked;
+                ViewModel.Canceled += ViewModel_Canceled;
+            }
+        }
+
+        private void UnhookViewModelEvents()
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.ObjectPicked -= ViewModel_ObjectPicked;
+                ViewModel.Canceled -= ViewModel_Canceled;
+            }
+        }
+
+        #endregion
+
+        #region PickerEvent handlers
+
+        private void ObjectPicker_Unloaded(object sender, RoutedEventArgs e)
+        {
+            UnhookViewModelEvents();
+            UnhookEvents();
+            _popup.IsOpen = false;
+        }
+
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            HookUpViewModelEvents();
+        }
+
+        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             if (_rootGrid != null)
             {
@@ -117,18 +114,44 @@ namespace HHChaosToolkit.UWP.Picker
             }
         }
 
-        private void _rootGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        private void RootGrid_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (e.OriginalSource == _rootGrid)
-                ViewModel_Canceled(this, EventArgs.Empty);
+            {
+                _taskSource.SetResult(new PickResult<T>
+                {
+                    Canceled = true
+                });
+            }
         }
+
+        #endregion
+
+        #region ViewModelEvent handlers
+
+        private void ViewModel_ObjectPicked(object sender, ObjectPickedEventArgs<T> e)
+        {
+            _taskSource.SetResult(new PickResult<T>
+            {
+                Result = e.Result
+            });
+        }
+
+        private void ViewModel_Canceled(object sender, EventArgs e)
+        {
+            _taskSource.SetResult(new PickResult<T>
+            {
+                Canceled = true
+            });
+        }
+
+        #endregion
 
         private void Close()
         {
-            Window.Current.SizeChanged -= Current_SizeChanged;
             if (_rootGrid != null)
             {
-                _rootGrid.Tapped -= _rootGrid_Tapped;
+                _rootGrid.Tapped -= RootGrid_Tapped;
                 _rootGrid.Children.Remove(this);
             }
         }
