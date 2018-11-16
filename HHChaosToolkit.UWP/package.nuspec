@@ -4,7 +4,7 @@
     <!--*-->
     <id>HHChaosToolkit.UWP</id>
     <!--*-->
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <title>HHChaosToolkit.UWP</title>
     <!--*-->
     <authors>HHChaos</authors>
@@ -14,7 +14,7 @@
     <!-- <iconUrl></iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <!--*-->
-    <description>A set of MVVM tookit class libraries for uwp platforms.</description>
+    <description>A set of MVVM tookit class libraries for uwp platform.</description>
     <!--*-->
     <releaseNotes>BindableBase class adds a new method update property.</releaseNotes>
     <copyright>HHChaos Copyright ©  2018</copyright>
