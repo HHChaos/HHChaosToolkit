@@ -11,7 +11,7 @@ HHChaosToolkit是一套适用于MVVM框架下使用的组件库。他包括了�
 - 支持在ViewModle层传递参数的导航服务
 - Toast/WaitingDialog控件
 
-HHChaosToolkit可以从Nuget获取，以后直接下载源码进行编译运行，查看Demo效果。
+HHChaosToolkit可以从Nuget获取，也可以直接下载源码进行编译运行，查看Sample效果。
 
 ## Download
 UWP:download from [Nuget](https://www.nuget.org/packages/HHChaosToolkit.UWP/)
