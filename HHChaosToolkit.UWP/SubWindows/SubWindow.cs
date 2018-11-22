@@ -15,6 +15,10 @@ using HHChaosToolkit.UWP.Utilities;
 
 namespace HHChaosToolkit.UWP.SubWindows
 {
+    [TemplatePart(Name = LayoutGridName, Type = typeof(Grid))]
+    [TemplatePart(Name = ContentFrameName, Type = typeof(Frame))]
+    [TemplatePart(Name = TitleGridName, Type = typeof(Grid))]
+    [TemplatePart(Name = CloseButtonName, Type = typeof(Button))]
     public sealed class SubWindow : Control
     {
         private const string LayoutGridName = "PART_LayoutGrid";

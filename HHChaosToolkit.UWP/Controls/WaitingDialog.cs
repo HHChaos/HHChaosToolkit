@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -17,6 +13,8 @@ namespace HHChaosToolkit.UWP.Controls
 
         private readonly Popup _popup;
 
+        private AppViewBackButtonVisibility _appViewBackButtonBak;
+
         public WaitingDialog(string content)
         {
             DefaultStyleKey = typeof(WaitingDialog);
@@ -27,29 +25,34 @@ namespace HHChaosToolkit.UWP.Controls
             {
                 Child = this
             };
-            Window.Current.SizeChanged += Current_SizeChanged; 
+            Window.Current.SizeChanged += Current_SizeChanged;
         }
 
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        public string Content
+        {
+            get => (string) GetValue(ContentProperty);
+            set => SetValue(ContentProperty, value);
+        }
+
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             Width = Window.Current.Bounds.Width;
             Height = Window.Current.Bounds.Height;
         }
 
-        public string Content
-        {
-            get => (string)GetValue(ContentProperty);
-            set => SetValue(ContentProperty, value);
-        }
-
         public void Show()
         {
+            _appViewBackButtonBak =
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                AppViewBackButtonVisibility.Disabled;
             _popup.IsOpen = true;
         }
 
         public void Close()
         {
             _popup.IsOpen = false;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _appViewBackButtonBak;
             Window.Current.SizeChanged -= Current_SizeChanged;
         }
     }

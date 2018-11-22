@@ -12,7 +12,7 @@ namespace HHChaosToolkit.UWP.Picker
 {
     public class ObjectPicker<T> : ContentControl
     {
-        private readonly NavigationService _navigationService = new NavigationService { Frame = new Frame() };
+        private readonly NavigationService _navigationService = new NavigationService {Frame = new Frame()};
 
         private Popup _popup;
         private Grid _rootGrid;
@@ -23,8 +23,9 @@ namespace HHChaosToolkit.UWP.Picker
             Content = _navigationService.Frame;
             HookUpEvents();
         }
-        
-        private IObjectPicker<T> ViewModel => (_navigationService?.Frame?.Content as Page)?.DataContext as IObjectPicker<T>;
+
+        private IObjectPicker<T> ViewModel =>
+            (_navigationService?.Frame?.Content as Page)?.DataContext as IObjectPicker<T>;
 
         public PickerOpenOption PickerOpenOption { get; set; } = new PickerOpenOption();
 
@@ -49,10 +50,24 @@ namespace HHChaosToolkit.UWP.Picker
             };
             _rootGrid.Children.Add(this);
             _navigationService.Navigate(sourcePageType, parameter);
+            var appViewBackButtonBak =
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                AppViewBackButtonVisibility.Disabled;
             _popup.IsOpen = true;
             var result = await _taskSource.Task;
             Close();
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = appViewBackButtonBak;
             return result;
+        }
+
+        private void Close()
+        {
+            if (_rootGrid != null)
+            {
+                _rootGrid.Tapped -= RootGrid_Tapped;
+                _rootGrid.Children.Remove(this);
+            }
         }
 
         #region HookEvent
@@ -117,12 +132,10 @@ namespace HHChaosToolkit.UWP.Picker
         private void RootGrid_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (e.OriginalSource == _rootGrid)
-            {
                 _taskSource.SetResult(new PickResult<T>
                 {
                     Canceled = true
                 });
-            }
         }
 
         #endregion
@@ -146,14 +159,5 @@ namespace HHChaosToolkit.UWP.Picker
         }
 
         #endregion
-
-        private void Close()
-        {
-            if (_rootGrid != null)
-            {
-                _rootGrid.Tapped -= RootGrid_Tapped;
-                _rootGrid.Children.Remove(this);
-            }
-        }
     }
 }
