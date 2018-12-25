@@ -1,7 +1,7 @@
 # HHChaosToolkit
-A set of MVVM tookit class libraries for uwp platform.
+HHChaosToolkit is a popup layer component library with MVVM framework.
 
-HHChaosToolkit是一套适用于MVVM框架下使用的组件库。他包括了以下部分：
+HHChaosToolkit是一套适用于MVVM框架下使用的弹窗层组件库。他包括了以下部分：
 
 - Picker弹窗组件（相关文章见下）
 
