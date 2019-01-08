@@ -212,8 +212,8 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.5</Version>
     </PackageReference>
-    <PackageReference Include="MvvmLight">
-      <Version>5.4.1.1</Version>
+    <PackageReference Include="Unity">
+      <Version>5.8.13</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

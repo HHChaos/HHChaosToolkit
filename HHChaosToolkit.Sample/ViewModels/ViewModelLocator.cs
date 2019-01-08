@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 using CommonServiceLocator;
-using GalaSoft.MvvmLight.Ioc;
 using HHChaosToolkit.Sample.ViewModels.TestViewModels;
 using HHChaosToolkit.Sample.Views;
 using HHChaosToolkit.Sample.Views.TestPages;
 using HHChaosToolkit.UWP.Mvvm;
 using HHChaosToolkit.UWP.Services;
 using HHChaosToolkit.UWP.Services.Navigation;
+using Unity.ServiceLocation;
+using Unity;
+using Unity.Lifetime;
 
 namespace HHChaosToolkit.Sample.ViewModels
 {
@@ -40,15 +42,20 @@ namespace HHChaosToolkit.Sample.ViewModels
         public TestColorPickerViewModel TestColorPickerViewModel => ServiceLocator.Current.GetInstance<TestColorPickerViewModel>();
         public TestInputDialogViewModel TestInputDialogViewModel => ServiceLocator.Current.GetInstance<TestInputDialogViewModel>();
 
-        public TestSampleSubWindowViewModel TestSampleSubWindowViewModel => SimpleIoc.Default.GetInstanceWithoutCaching<TestSampleSubWindowViewModel>();
+        public TestSampleSubWindowViewModel TestSampleSubWindowViewModel => ServiceLocator.Current.GetInstance<TestSampleSubWindowViewModel>();
 
+
+        private IUnityContainer _container;
         public void InitViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            SimpleIoc.Default.Register(() => new ObjectPickerService());
-            SimpleIoc.Default.Register(() => new SubWindowsService());
+            _container = new UnityContainer();
+            var _serviceLocator = new UnityServiceLocator(_container);
+            ServiceLocator.SetLocatorProvider(() => _serviceLocator);
 
-            SimpleIoc.Default.Register<ShellViewModel>();
+            _container.RegisterType<ObjectPickerService>(new ContainerControlledLifetimeManager())
+                .RegisterType<SubWindowsService>(new ContainerControlledLifetimeManager())
+                .RegisterType<ShellViewModel>(new ContainerControlledLifetimeManager());
+            
             RegisterNavigationService<MainViewModel, MainPage>(ShellViewModel.ContentNavigationServiceKey);
             RegisterNavigationService<NavigationServiceViewModel, NavigationServicePage>(ShellViewModel.ContentNavigationServiceKey);
             RegisterNavigationService<PickerServiceViewModel, PickerServicePage>(ShellViewModel.ContentNavigationServiceKey);
@@ -60,13 +67,12 @@ namespace HHChaosToolkit.Sample.ViewModels
 
             RegisterObjectPicker<Color, TestColorPickerViewModel, TestColorPickerPage>();
             RegisterObjectPicker<string, TestInputDialogViewModel, TestInputDialogPage>();
-
             RegisterSubWindow<TestSampleSubWindowViewModel, TestSampleSubWindowPage>();
         }
         public void RegisterNavigationService<VM, V>(string nsKey)
             where VM : ViewModelBase
         {
-            SimpleIoc.Default.Register<VM>();
+            _container.RegisterType<VM>(new ContainerControlledLifetimeManager());
             if (!NavigationServiceList.Instance.IsRegistered(nsKey))
                 NavigationServiceList.Instance.Register(nsKey, new NavigationService());
             var contentService = NavigationServiceList.Instance[nsKey];
@@ -75,13 +81,13 @@ namespace HHChaosToolkit.Sample.ViewModels
         public void RegisterObjectPicker<T, VM, V>()
             where VM : ObjectPickerBase<T>
         {
-            SimpleIoc.Default.Register<VM>();
+            _container.RegisterType<VM>(new ContainerControlledLifetimeManager());
             ObjectPickerService.Configure(typeof(T).FullName, typeof(VM).FullName, typeof(V));
         }
         public void RegisterSubWindow<VM, V>()
             where VM : SubWindowBase
         {
-            SimpleIoc.Default.Register<VM>();
+            _container.RegisterType<VM>();
             SubWindowsService.Configure(typeof(VM).FullName, typeof(V));
         }
     }
