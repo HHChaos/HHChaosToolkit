@@ -5,8 +5,11 @@ HHChaosToolkit是一套适用于MVVM框架下使用的弹窗层组件库。他�
 
 - Picker弹窗组件（相关文章见下）
 
+  - [[UWP]不那么好用的ContentDialog](https://www.cnblogs.com/hhchaos/p/9925745.html)
   - [[UWP]使用Popup构建UWP Picker](https://www.cnblogs.com/hhchaos/p/9961249.html)
   - [[UWP]使用Picker实现一个简单的ColorPicker弹窗](https://www.cnblogs.com/hhchaos/p/9961258.html)
+  - [[UWP]使用Picker构建应用内图片公共裁剪组件](https://www.cnblogs.com/hhchaos/p/10174116.html)
+
 - SubWindows子窗口组件
 - 支持在ViewModle层传递参数的导航服务
 - Toast/WaitingDialog控件
@@ -25,6 +28,6 @@ UWP:download from [Nuget](https://www.nuget.org/packages/HHChaosToolkit.UWP/)
 * **Picker/Dialog**
  ![Screenshot](Screenshot/screenshot2.gif)
 * **SubWindows**
- ![Screenshot](Screenshot/screenshot3.png)
+ ![Screenshot](Screenshot/screenshot3.gif)
 * **Toast**
- ![Screenshot](Screenshot/screenshot4.png)
+ ![Screenshot](Screenshot/screenshot4.gif)
