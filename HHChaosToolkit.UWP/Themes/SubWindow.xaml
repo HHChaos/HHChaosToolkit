@@ -17,8 +17,8 @@
                 <ControlTemplate TargetType="subWindows:SubWindow">
                     <Grid
                         x:Name="PART_LayoutGrid"
-                        BorderBrush="{StaticResource ContentDialogBorderThemeBrush}"
                         Background="White"
+                        BorderBrush="{StaticResource ContentDialogBorderThemeBrush}"
                         BorderThickness="1">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -27,8 +27,8 @@
                             </Grid.RowDefinitions>
                             <Grid
                                 x:Name="PART_TitleGrid"
-                                Margin="0"
                                 Height="30"
+                                Margin="0"
                                 Background="{ThemeResource ContentDialogBorderThemeBrush}"
                                 UseLayoutRounding="False">
                                 <Grid.ColumnDefinitions>

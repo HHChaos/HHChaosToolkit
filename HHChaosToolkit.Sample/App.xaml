@@ -6,7 +6,10 @@
     xmlns:viewModels="using:HHChaosToolkit.Sample.ViewModels">
     <Application.Resources>
         <ResourceDictionary>
-            <viewModels:ViewModelLocator x:Name="Locator"/>
+            <viewModels:ViewModelLocator x:Name="Locator" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Toast.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

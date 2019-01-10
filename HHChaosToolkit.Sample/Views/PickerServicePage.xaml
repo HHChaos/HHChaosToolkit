@@ -11,19 +11,19 @@
     <Page.Resources>
         <ResourceDictionary>
             <Style TargetType="Button">
-                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Margin" Value="5" />
             </Style>
         </ResourceDictionary>
     </Page.Resources>
     <Grid Padding="10">
         <Grid.Background>
-            <SolidColorBrush Color="{Binding PickedColor}"/>
+            <SolidColorBrush Color="{Binding PickedColor}" />
         </Grid.Background>
         <StackPanel>
-            <Button Content="PickBackgroundColor" Command="{Binding PickBackgroundColorCommand}"/>
-            <Button Content="PickBackgroundColor(with custom PickerOpenOption and AcrylicBrush)" Command="{Binding PickBackgroundColorWithCustomOptionCommand}"/>
-            <Button Content="InputDialog(Win8Style)" Command="{Binding OpenInputDialogCommand}"/>
-            <Button Content="InputDialog(with custom PickerOpenOption and AcrylicBrush)" Command="{Binding OpenInputDialogWithCustomOptionCommand}"/>
+            <Button Command="{Binding PickBackgroundColorCommand}" Content="PickBackgroundColor" />
+            <Button Command="{Binding PickBackgroundColorWithCustomOptionCommand}" Content="PickBackgroundColor(with custom PickerOpenOption and AcrylicBrush)" />
+            <Button Command="{Binding OpenInputDialogCommand}" Content="InputDialog(Win8Style)" />
+            <Button Command="{Binding OpenInputDialogWithCustomOptionCommand}" Content="InputDialog(with custom PickerOpenOption and AcrylicBrush)" />
         </StackPanel>
     </Grid>
 </Page>

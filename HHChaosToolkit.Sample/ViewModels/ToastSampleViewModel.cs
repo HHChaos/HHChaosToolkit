@@ -10,6 +10,7 @@ using HHChaosToolkit.Sample.ViewModels.TestViewModels;
 using HHChaosToolkit.UWP.Controls;
 using HHChaosToolkit.UWP.Mvvm;
 using HHChaosToolkit.UWP.Services;
+using HHChaosToolkit.Sample.Helpers;
 
 namespace HHChaosToolkit.Sample.ViewModels
 {
@@ -21,11 +22,33 @@ namespace HHChaosToolkit.Sample.ViewModels
             {
                 return new RelayCommand(() =>
                 {
-                    var toast = new Toast("This is a sample toast.");
-                    toast.Show();
+                    ToastHelper.SendToast("This is a sample toast.");
                 });
             }
         }
+
+        public ICommand ShowSampleToastForLongTimeCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    ToastHelper.SendToast("This is a long time sample toast.",TimeSpan.FromSeconds(5));
+                });
+            }
+        }
+        
+        public ICommand ShowCustomToastCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    ToastHelper.SendCustomToast("This is a custom toast.", TimeSpan.FromSeconds(3));
+                });
+            }
+        }
+
         public ICommand ShowWaitingDialogCommand
         {
             get
@@ -34,7 +57,11 @@ namespace HHChaosToolkit.Sample.ViewModels
                 {
                     var dialog = new WaitingDialog("It will disappear in 3 seconds.");
                     dialog.Show();
-                    await Task.Delay(3000);
+                    await Task.Delay(1000);
+                    dialog.Content = "It will disappear in 2 seconds.";
+                    await Task.Delay(1000);
+                    dialog.Content = "It will disappear in 1 seconds.";
+                    await Task.Delay(1000);
                     dialog.Close();
                 });
             }

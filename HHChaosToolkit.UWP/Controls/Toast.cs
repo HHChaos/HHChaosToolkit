@@ -14,9 +14,9 @@ namespace HHChaosToolkit.UWP.Controls
         public static readonly DependencyProperty ContentProperty =
             DependencyProperty.Register("Content", typeof(string), typeof(Toast), new PropertyMetadata(0));
 
-        // Using a DependencyProperty as the backing store for HideTimeSpan.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty HideTimeSpanProperty =
-            DependencyProperty.Register("HideTimeSpan", typeof(TimeSpan), typeof(Toast),
+        // Using a DependencyProperty as the backing store for Duration.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DurationProperty =
+            DependencyProperty.Register("Duration", typeof(TimeSpan), typeof(Toast),
                 new PropertyMetadata(TimeSpan.FromSeconds(2.0)));
 
         public Toast(string content)
@@ -32,10 +32,10 @@ namespace HHChaosToolkit.UWP.Controls
             Window.Current.SizeChanged += Current_SizeChanged;
         }
 
-        public TimeSpan HideTimeSpan
+        public TimeSpan Duration
         {
-            get => (TimeSpan) GetValue(HideTimeSpanProperty);
-            set => SetValue(HideTimeSpanProperty, value);
+            get => (TimeSpan) GetValue(DurationProperty);
+            set => SetValue(DurationProperty, value);
         }
 
         public string Content
@@ -57,7 +57,7 @@ namespace HHChaosToolkit.UWP.Controls
                 IsOpen = true,
                 Child = this
             };
-            await Task.Delay(HideTimeSpan);
+            await Task.Delay(Duration);
             popup.Child = null;
             popup.IsOpen = false;
             Window.Current.SizeChanged -= Current_SizeChanged;

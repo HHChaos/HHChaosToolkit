@@ -10,6 +10,7 @@ using HHChaosToolkit.UWP.Controls;
 using HHChaosToolkit.UWP.Mvvm;
 using HHChaosToolkit.UWP.Picker;
 using HHChaosToolkit.UWP.Services;
+using HHChaosToolkit.Sample.Helpers;
 
 namespace HHChaosToolkit.Sample.ViewModels
 {
@@ -35,8 +36,7 @@ namespace HHChaosToolkit.Sample.ViewModels
                     if (!ret.Canceled)
                     {
                         PickedColor = ret.Result;
-                        var toast = new Toast($"You picked a new color!({ret.Result})");
-                        toast.Show();
+                        ToastHelper.SendToast($"You picked a new color!({ret.Result})");
                     }
                 });
             }
@@ -71,8 +71,7 @@ namespace HHChaosToolkit.Sample.ViewModels
                     if (!ret.Canceled)
                     {
                         PickedColor = ret.Result;
-                        var toast = new Toast($"You picked a new color!({ret.Result})");
-                        toast.Show();
+                        ToastHelper.SendToast($"You picked a new color!({ret.Result})");
                     }
 
                 });
@@ -93,8 +92,7 @@ namespace HHChaosToolkit.Sample.ViewModels
                         });
                     if (!ret.Canceled)
                     {
-                        var toast = new Toast($"Get: {ret.Result}");
-                        toast.Show();
+                        ToastHelper.SendToast($"Get: {ret.Result}");
                     }
                 });
             }
@@ -131,8 +129,7 @@ namespace HHChaosToolkit.Sample.ViewModels
                         typeof(TestInputDialogViewModel).FullName, null, openOption);
                     if (!ret.Canceled)
                     {
-                        var toast = new Toast($"Get: {ret.Result}");
-                        toast.Show();
+                        ToastHelper.SendToast($"Get: {ret.Result}");
                     }
                 });
             }
