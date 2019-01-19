@@ -132,6 +132,24 @@ namespace HHChaosToolkit.UWP.Services
             return new Point();
         }
 
+        public void HideWindow(string subWinKey)
+        {
+            if (_subWindows.ContainsKey(subWinKey))
+            {
+                var subWin = _subWindows[subWinKey];
+                subWin.Hide();
+            }
+        }
+
+        public void ShowWindow(string subWinKey)
+        {
+            if (_subWindows.ContainsKey(subWinKey))
+            {
+                var subWin = _subWindows[subWinKey];
+                subWin.Show();
+            }
+        }
+
         public void HideAllWindows()
         {
             foreach (var subWin in _subWindows.Values) subWin.Hide();
