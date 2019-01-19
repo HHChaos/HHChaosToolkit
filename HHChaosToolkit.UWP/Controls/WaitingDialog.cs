@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace HHChaosToolkit.UWP.Controls
 {
-    public sealed class WaitingDialog : Control
+    public class WaitingDialog : Control
     {
         // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ContentProperty =

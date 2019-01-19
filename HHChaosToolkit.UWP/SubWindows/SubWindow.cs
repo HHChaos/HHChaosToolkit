@@ -19,7 +19,7 @@ namespace HHChaosToolkit.UWP.SubWindows
     [TemplatePart(Name = ContentFrameName, Type = typeof(Frame))]
     [TemplatePart(Name = TitleGridName, Type = typeof(Grid))]
     [TemplatePart(Name = CloseButtonName, Type = typeof(Button))]
-    public sealed class SubWindow : Control
+    public class SubWindow : Control
     {
         private const string LayoutGridName = "PART_LayoutGrid";
         private const string ContentFrameName = "PART_ContentFrame";

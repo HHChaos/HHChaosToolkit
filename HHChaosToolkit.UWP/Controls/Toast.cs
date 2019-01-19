@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace HHChaosToolkit.UWP.Controls
 {
-    public sealed class Toast : Control
+    public class Toast : Control
     {
         // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ContentProperty =
