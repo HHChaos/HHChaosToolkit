@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HHChaosToolkit.UWP.Services.Navigation;
+using System;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -6,13 +7,12 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using HHChaosToolkit.UWP.Services.Navigation;
 
 namespace HHChaosToolkit.UWP.Picker
 {
     public class ObjectPicker<T> : ContentControl
     {
-        private readonly NavigationService _navigationService = new NavigationService {Frame = new Frame()};
+        private readonly NavigationService _navigationService = new NavigationService { Frame = new Frame() };
 
         private Popup _popup;
         private Grid _rootGrid;
@@ -50,15 +50,24 @@ namespace HHChaosToolkit.UWP.Picker
             };
             _rootGrid.Children.Add(this);
             _navigationService.Navigate(sourcePageType, parameter);
+
             var appViewBackButtonBak =
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                 AppViewBackButtonVisibility.Disabled;
             _popup.IsOpen = true;
+            await FocusPicker();
             var result = await _taskSource.Task;
             Close();
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = appViewBackButtonBak;
             return result;
+        }
+
+        private async Task FocusPicker()
+        {
+            var element = FocusManager.FindFirstFocusableElement(_rootGrid);
+            if (element != null)
+                await FocusManager.TryFocusAsync(element, FocusState.Programmatic);
         }
 
         private void Close()
